@@ -1,27 +1,8 @@
 import React, { Component } from 'react';
 import Board from './Board';
 
-const calculateWinner = (squares) => {
-  // const lines = [
-  //   [0, 1, 2],
-  //   [3, 4, 5],
-  //   [6, 7, 8],
-  //   [0, 3, 6],
-  //   [1, 4, 7],
-  //   [2, 5, 8],
-  //   [0, 4, 8],
-  //   [2, 4, 6]
-  // ];
-  // for (let i = 0; i < lines.length; i++) {
-  //   const [a, b, c] = lines[i];
-  //   if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-  //     return squares[a];
-  //   }
-  // }
-  return null;
-}
-
 const boardSize = 13;
+let gameOver = false;
 const boardArray = new Array(boardSize);
 for(let k=0; k<boardSize; k++) {
   boardArray[k] = new Array(boardSize);
@@ -34,7 +15,8 @@ class Game extends Component {
     this.state = {
       history: [
         {
-          squares: boardArray
+          squares: boardArray,
+          position: []
         }
       ],
       stepNumber: 0,
@@ -42,18 +24,67 @@ class Game extends Component {
     };
   }
 
+  calculateWinner = (squares, i, j) => {
+    if(i === undefined) {
+      return null
+    }
+
+    const check = squares[i][j]
+    const lines = [
+      [[-4, -4], [-3, -3], [-2, -2], [-1, -1]],
+      [[-3, -3], [-2, -2], [-1, -1], [1, 1]],
+      [[-2, -2], [-1, -1], [1, 1],[2, 2]],
+      [[-1, -1], [1, 1],[2, 2], [3, 3]],
+      [[1, 1],[2, 2], [3, 3], [4, 4]],
+      
+      [[-4, 0], [-3, 0],[-2, 0], [-1, 0]],
+      [[-3, 0],[-2, 0], [-1, 0], [1, 0]],
+      [[-2, 0], [-1, 0], [1, 0], [2, 0]],
+      [[-1, 0], [1, 0], [2, 0], [3, 0]],
+      [[1, 0], [2, 0], [3, 0], [4, 0]],
+      
+      [[0, -4], [0, -3],[0, -2], [0, -1]],
+      [[0, -3],[0, -2], [0, -1], [0, 1]],
+      [[0, -2], [0, -1], [0, 1], [0, 2]],
+      [[0, -1], [0, 1], [0, 2], [0, 3]],
+      [[0, 1], [0, 2], [0, 3], [0, 4]],
+      
+      [[-4, 4], [-3, 3],[-2, 2], [-1, 1]],
+      [[-3, 3],[-2, 2], [-1, 1],[1, -1]],
+      [[-2, 2], [-1, 1],[1, -1], [2, -2]],
+      [[-1, 1],[1, -1], [2, -2], [3, -3]],
+      [[1, -1], [2, -2], [3, -3], [4, -4]]
+    ];
+    for (let k = 0; k < lines.length; k++) {
+      const [a, b, c, d] = lines[k];
+
+      if(!squares[i + a[0]] || !squares[i + b[0]] || !squares[i + c[0]] || !squares[i + d[0]]) {
+        continue;
+      }
+      if (check === squares[i+a[0]][j+a[1]] && check === squares[i+b[0]][j+b[1]] && check === squares[i+c[0]][j+c[1]] && check === squares[i+d[0]][j+d[1]]) {
+        return check;
+      }
+    }
+
+    return null;
+  }
+
   handleClick(i,j) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = JSON.parse(JSON.stringify(current.squares));
-    if (calculateWinner(squares) || squares[i][j]) {
+    const position = [i,j];
+    const currrentPiece = this.state.xIsNext ? "X" : "O";
+
+    if (squares[i][j] || gameOver) {
       return;
     }
-    squares[i][j] = this.state.xIsNext ? "X" : "O";
+    squares[i][j] = currrentPiece;
     this.setState({
       history: history.concat([
         {
-          squares: squares
+          squares,
+          position
         }
       ]),
       stepNumber: history.length,
@@ -70,8 +101,13 @@ class Game extends Component {
 
   render() {
     const history = this.state.history;
-    const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
+    const stepNumber = this.state.stepNumber;
+    const current = history[stepNumber];
+    const winner = this.calculateWinner(current.squares, ...current.position)
+
+    if (winner && !gameOver) {
+      gameOver = true
+    }
 
     const moves = history.map((step, move) => {
       const desc = move ?
@@ -79,7 +115,15 @@ class Game extends Component {
         'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={
+            () => {
+              this.jumpTo(move);
+
+              if (stepNumber > move) {
+                gameOver = false
+              }
+            }
+          }>{desc}</button>
         </li>
       );
     });
