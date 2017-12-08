@@ -2,23 +2,30 @@ import React, { Component } from 'react';
 import Board from './Board';
 
 const calculateWinner = (squares) => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
+  // const lines = [
+  //   [0, 1, 2],
+  //   [3, 4, 5],
+  //   [6, 7, 8],
+  //   [0, 3, 6],
+  //   [1, 4, 7],
+  //   [2, 5, 8],
+  //   [0, 4, 8],
+  //   [2, 4, 6]
+  // ];
+  // for (let i = 0; i < lines.length; i++) {
+  //   const [a, b, c] = lines[i];
+  //   if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+  //     return squares[a];
+  //   }
+  // }
   return null;
+}
+
+const boardSize = 13;
+const boardArray = new Array(boardSize);
+for(let k=0; k<boardSize; k++) {
+  boardArray[k] = new Array(boardSize);
+  boardArray[k].fill(null);
 }
 
 class Game extends Component {
@@ -27,7 +34,7 @@ class Game extends Component {
     this.state = {
       history: [
         {
-          squares: Array(9).fill(null)
+          squares: boardArray
         }
       ],
       stepNumber: 0,
@@ -35,14 +42,14 @@ class Game extends Component {
     };
   }
 
-  handleClick(i) {
+  handleClick(i,j) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
-    const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
+    const squares = JSON.parse(JSON.stringify(current.squares));
+    if (calculateWinner(squares) || squares[i][j]) {
       return;
     }
-    squares[i] = this.state.xIsNext ? "X" : "O";
+    squares[i][j] = this.state.xIsNext ? "X" : "O";
     this.setState({
       history: history.concat([
         {
@@ -89,7 +96,7 @@ class Game extends Component {
         <div className="game-board">
           <Board
             squares={current.squares}
-            onClick={i => this.handleClick(i)}
+            onClick={(i,j) => this.handleClick(i,j)}
           />
         </div>
         <div className="game-info">

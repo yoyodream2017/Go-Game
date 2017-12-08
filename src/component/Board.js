@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import Square from './Square';
+const boardSize = 13;
 
 class Board extends Component {
-  renderSquare(i) {
+  renderSquare(i,j) {
     return (
       <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={this.props.squares[i][j]}
+        onClick={() => this.props.onClick(i,j)}
       />
     );
   }
 
+  renderRow(i) {
+    let boardRow = new Array(boardSize);
+
+    for (let j = 0; j<boardSize; j++) {
+      boardRow.push(
+        <span key={'square'+i+j}>
+          {this.renderSquare(i, j)}
+        </span>
+      )
+    }
+    return (
+      boardRow
+    )
+  }
+
   render() {
+    let board = new Array(boardSize);
+    
+    for(let k=0; k<boardSize; k++) {
+      board[k] = new Array(boardSize);
+    }
+
+    for(let i=0; i<boardSize; i++){
+      board[i].push(
+        <div className="board-row" key={'square'+i}>
+          {this.renderRow(i)}
+        </div>
+      )
+    }
+
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {board}
       </div>
     );
   }
