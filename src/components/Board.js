@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Square from './Square';
-const boardSize = 13;
 
 class Board extends Component {
   renderSquare(i,j) {
@@ -13,34 +12,33 @@ class Board extends Component {
   }
 
   renderRow(i) {
-    let boardRow = new Array(boardSize);
-
-    for (let j = 0; j<boardSize; j++) {
-      boardRow.push(
-        <span key={'square'+i+j}>
-          {this.renderSquare(i, j)}
+    const boardSize = this.props.boardSize;
+    const boardRow = Array.from({length: boardSize}).map((item, j) => {
+      return (
+        <span key={'square'+i+j}> 
+          {this.renderSquare(i, j)} 
         </span>
-      )
-    }
+      );
+    })
+
     return (
       boardRow
     )
   }
 
   render() {
-    let board = new Array(boardSize);
+    const boardSize = this.props.boardSize;
+    let board = new Array(boardSize)
+                  .fill(null)
+                  .map(() => new Array(boardSize));// add fill to use array method map,forEach etc.
     
-    for(let k=0; k<boardSize; k++) {
-      board[k] = new Array(boardSize);
-    }
-
-    for(let i=0; i<boardSize; i++){
-      board[i].push(
+    board.forEach((arr, i) => {
+      arr.push(
         <div className="board-row" key={'square'+i}>
           {this.renderRow(i)}
         </div>
-      )
-    }
+      )}
+    )
 
     return (
       <div>

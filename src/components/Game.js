@@ -1,36 +1,14 @@
 import React, { Component } from 'react';
 import Board from './Board';
-
-const boardSize = 13;
-let gameOver = false;
-const boardArray = new Array(boardSize);
-for(let k=0; k<boardSize; k++) {
-  boardArray[k] = new Array(boardSize);
-  boardArray[k].fill(null);
-}
+import { Link } from 'react-router-dom';
 
 class Game extends Component {
+
   constructor(props) {
     super(props);
-    this.state = {
-      history: [
-        {
-          squares: boardArray,
-          position: []
-        }
-      ],
-      stepNumber: 0,
-      xIsNext: true
-    };
-  }
-
-  calculateWinner = (squares, i, j) => {
-    if(i === undefined) {
-      return null
-    }
-
-    const check = squares[i][j]
-    const lines = [
+    this.boardSize = 13;
+    this.gameOver = false;
+    this.lines = [
       [[-4, -4], [-3, -3], [-2, -2], [-1, -1]],
       [[-3, -3], [-2, -2], [-1, -1], [1, 1]],
       [[-2, -2], [-1, -1], [1, 1],[2, 2]],
@@ -55,6 +33,25 @@ class Game extends Component {
       [[-1, 1],[1, -1], [2, -2], [3, -3]],
       [[1, -1], [2, -2], [3, -3], [4, -4]]
     ];
+    this.state = {
+      history: [
+        {
+          squares: Array.from({length: this.boardSize}).map(() => new Array(this.boardSize).fill(null)),
+          position: []
+        }
+      ],
+      stepNumber: 0,
+      xIsNext: true
+    };
+  }
+
+  calculateWinner(squares, i, j) {
+    if(i === undefined) {
+      return null
+    }
+
+    const check = squares[i][j];
+    const lines = this.lines;
     for (let k = 0; k < lines.length; k++) {
       const [a, b, c, d] = lines[k];
 
@@ -74,12 +71,11 @@ class Game extends Component {
     const current = history[history.length - 1];
     const squares = JSON.parse(JSON.stringify(current.squares));
     const position = [i,j];
-    const currrentPiece = this.state.xIsNext ? "X" : "O";
 
-    if (squares[i][j] || gameOver) {
+    if (squares[i][j] || this.gameOver) {
       return;
     }
-    squares[i][j] = currrentPiece;
+    squares[i][j] = this.state.xIsNext ? "X" : "O"
     this.setState({
       history: history.concat([
         {
@@ -105,8 +101,8 @@ class Game extends Component {
     const current = history[stepNumber];
     const winner = this.calculateWinner(current.squares, ...current.position)
 
-    if (winner && !gameOver) {
-      gameOver = true
+    if (winner && !this.gameOver) {
+      this.gameOver = true
     }
 
     const moves = history.map((step, move) => {
@@ -120,7 +116,7 @@ class Game extends Component {
               this.jumpTo(move);
 
               if (stepNumber > move) {
-                gameOver = false
+                this.gameOver = false
               }
             }
           }>{desc}</button>
@@ -136,16 +132,23 @@ class Game extends Component {
     }
 
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board
-            squares={current.squares}
-            onClick={(i,j) => this.handleClick(i,j)}
-          />
+      <div>
+        <div>
+          <Link to="/">Home</Link>
         </div>
-        <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
+        <br/>
+        <div className="game">
+          <div className="game-board">
+            <Board
+              squares={current.squares}
+              boardSize={this.boardSize}
+              onClick={(i,j) => this.handleClick(i,j)}
+            />
+          </div>
+          <div className="game-info">
+            <div>{status}</div>
+            <ol>{moves}</ol>
+          </div>
         </div>
       </div>
     );
