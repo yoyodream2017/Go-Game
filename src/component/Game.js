@@ -3,11 +3,7 @@ import Board from './Board';
 
 const boardSize = 13;
 let gameOver = false;
-const boardArray = new Array(boardSize);
-for(let k=0; k<boardSize; k++) {
-  boardArray[k] = new Array(boardSize);
-  boardArray[k].fill(null);
-}
+const boardArray = Array.from({length: boardSize}).map(() => new Array(boardSize).fill(null))
 
 class Game extends Component {
   constructor(props) {
@@ -74,12 +70,11 @@ class Game extends Component {
     const current = history[history.length - 1];
     const squares = JSON.parse(JSON.stringify(current.squares));
     const position = [i,j];
-    const currrentPiece = this.state.xIsNext ? "X" : "O";
 
     if (squares[i][j] || gameOver) {
       return;
     }
-    squares[i][j] = currrentPiece;
+    squares[i][j] = this.state.xIsNext ? "X" : "O"
     this.setState({
       history: history.concat([
         {
@@ -140,6 +135,7 @@ class Game extends Component {
         <div className="game-board">
           <Board
             squares={current.squares}
+            boardSize={boardSize}
             onClick={(i,j) => this.handleClick(i,j)}
           />
         </div>
