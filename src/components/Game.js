@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Board from './Board';
+import { Link } from 'react-router-dom';
 
 const boardSize = 13;
 let gameOver = false;
@@ -131,17 +132,23 @@ class Game extends Component {
     }
 
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board
-            squares={current.squares}
-            boardSize={boardSize}
-            onClick={(i,j) => this.handleClick(i,j)}
-          />
+      <div>
+        <div>
+          <Link to="/">Home</Link>
         </div>
-        <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
+        <br/>
+        <div className="game">
+          <div className="game-board">
+            <Board
+              squares={current.squares}
+              boardSize={boardSize}
+              onClick={(i,j) => this.handleClick(i,j)}
+            />
+          </div>
+          <div className="game-info">
+            <div>{status}</div>
+            <ol>{moves}</ol>
+          </div>
         </div>
       </div>
     );
