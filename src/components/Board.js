@@ -13,7 +13,7 @@ class Board extends Component {
 
   renderRow(i) {
     const boardSize = this.props.boardSize;
-    let boardRow = Array.from({length: boardSize}).map((item, j) => {
+    const boardRow = Array.from({length: boardSize}).map((item, j) => {
       return (
         <span key={'square'+i+j}> 
           {this.renderSquare(i, j)} 

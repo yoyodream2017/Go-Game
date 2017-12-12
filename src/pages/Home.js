@@ -5,7 +5,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <div>Welcome to yoyo game, please choose what you want to play:</div>
+        <div>Welcome to yoyo game, please choose the game you want to play:</div>
         <div>
           <Link to="/toe">Tic tac toe</Link><br/>
           <Link to="/gobang">Gobang game</Link>
