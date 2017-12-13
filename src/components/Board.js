@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Square from './Square';
+import React, { Component } from 'react'/* eslint-disable */
+import Square from './Square'
 
 class Board extends Component {
   renderSquare(i,j) {
@@ -8,17 +8,17 @@ class Board extends Component {
         value={this.props.squares[i][j]}
         onClick={() => this.props.onClick(i,j)}
       />
-    );
+    )
   }
 
   renderRow(i) {
-    const boardSize = this.props.boardSize;
+    const boardSize = this.props.boardSize
     const boardRow = Array.from({length: boardSize}).map((item, j) => {
       return (
         <span key={'square'+i+j}> 
           {this.renderSquare(i, j)} 
         </span>
-      );
+      )
     })
 
     return (
@@ -27,10 +27,10 @@ class Board extends Component {
   }
 
   render() {
-    const boardSize = this.props.boardSize;
+    const boardSize = this.props.boardSize
     let board = new Array(boardSize)
-                  .fill(null)
-                  .map(() => new Array(boardSize));// add fill to use array method map,forEach etc.
+      .fill(null)
+      .map(() => new Array(boardSize))// add fill to use array method map,forEach etc.
     
     board.forEach((arr, i) => {
       arr.push(
@@ -44,8 +44,8 @@ class Board extends Component {
       <div>
         {board}
       </div>
-    );
+    )
   }
 }
 
-export default Board;
+export default Board
