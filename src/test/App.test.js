@@ -1,8 +1,6 @@
 /* 
   This test includes some basic test to learn jest.
 */
-
-import App from '../App'
 const fetchData = jest.fn()
 
 /*

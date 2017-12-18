@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Board from './Board'
-import { Link } from 'react-router-dom'
 
 class Game extends Component {
 
@@ -134,7 +133,7 @@ class Game extends Component {
     return (
       <div>
         <div>
-          <Link to="/">Home</Link>
+          <a href="/">Home</a>
         </div>
         <br/>
         <div className="game">
