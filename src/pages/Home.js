@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 
 class Home extends Component {
   render() {
@@ -7,9 +6,11 @@ class Home extends Component {
       <div>
         <div>Welcome to yoyo game, please choose the game you want to play:</div>
         <div>
-          <Link to="/toe">Tic tac toe</Link><br/>
-          <Link to="/gobang">Gobang game</Link>
-        </div>
+          <ul>
+            <li><a href='/toe'>Tic tac toe</a></li>
+            <li><a href='/gobang'>Gobang game</a></li>
+          </ul>
+        </div>    
       </div>
     )
   }
