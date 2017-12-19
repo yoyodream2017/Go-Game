@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`render renders correctly 1`] = `
+exports[`render renders fitting snapshot 1`] = `
 <div>
   <div>
     <a

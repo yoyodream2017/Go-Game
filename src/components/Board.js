@@ -16,7 +16,7 @@ class Board extends Component {
     const boardRow = Array.from({length: boardSize}).map((item, j) => {
       return (
         <span key={'square'+i+j}> 
-          {this.renderSquare(i, j)} 
+          {this.renderSquare(i, j)}
         </span>
       )
     })

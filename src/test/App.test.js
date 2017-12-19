@@ -1,8 +1,15 @@
 /* 
-  This test includes some basic test to learn jest.
+  This test file includes several basic tests to learn jest.
 */
+import { fromJS } from 'immutable'
 const fetchData = jest.fn()
+const arrayA = fromJS([1,2]);
+let arrayB = arrayA.push(3);
 
+test('', () => {
+  expect(arrayA).not.toContain(3)
+  expect(arrayB).toContain(3)  
+})
 /*
   asynchronous test
 */
@@ -15,7 +22,7 @@ test('the data is 122', () => {
     },1000)
   }
   
-  fetchData(callback('1222'));
+  fetchData(callback('122'));
 });
 
 // This coding type of mock setTimeout will leads to test time out, just skip
@@ -140,6 +147,6 @@ test('city database has San Juan', () => {
 // });
 
 // add only would skip all the others on the page
-test.only('this will be the only test that runs', () => {
-  expect(true).toBe(true);
-});
+// test.only('this will be the only test that runs', () => {
+//   expect(true).toBe(true);
+// });
