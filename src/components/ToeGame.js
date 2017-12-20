@@ -1,4 +1,3 @@
-
 import Game from './Game'
 
 class ToeGame extends Game {
