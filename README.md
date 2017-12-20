@@ -6,3 +6,5 @@ We did the refactor and provided a gobang game by extending the existing compone
 # Basic Operations
 - npm (run) start: open the app locally under eslint
 - npm (run) test: run test on src and see the test coverage
+- npm run stylefmt: do the style fmt
+- npm run stylelint: do the style lint 
