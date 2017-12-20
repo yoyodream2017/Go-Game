@@ -18,7 +18,7 @@
     "eject": "react-scripts eject",
     "prepush": "npm test",
     "stylelint": "./node_modules/.bin/stylelint './src/*.css'",
-    "stylefmt": "./node_modules/.bin/stylefmt -r \"./src/*.css\""
+    "stylefmt": "./node_modules/.bin/stylefmt -r './src/*.css'"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
