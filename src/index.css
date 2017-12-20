@@ -3,11 +3,13 @@ body {
   margin: 20px;
   min-width: 860px;
 }
-ol, ul {
+
+ol,
+ul {
   padding-left: 30px;
 }
 
-.board-row:after {
+.board-row::after {
   clear: both;
   content: "";
   display: table;
