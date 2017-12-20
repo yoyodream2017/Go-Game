@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow, mount, render } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import Game from '../../components/Game'
 import renderer from 'react-test-renderer'
 
@@ -10,15 +10,15 @@ describe('render', () => {
   test('renders without error', () => {
     const wrapper = shallow(<Game />)
 
-    expect(wrapper).toBeTruthy();
+    expect(wrapper).toBeTruthy()
   })
 
   it('renders fitting snapshot', () => {
     const tree = renderer
       .create(<Game />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
+      .toJSON()
+    expect(tree).toMatchSnapshot()
+  })
 
   it('renders with correct style', () => {
     const wrapper = shallow(<Game />)

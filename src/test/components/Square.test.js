@@ -6,7 +6,7 @@ describe('render', () => {
   it('renders without error', () => {
     const wrapper = shallow(<Square />)
 
-    expect(wrapper).toBeTruthy();
+    expect(wrapper).toBeTruthy()
   })
 
   it('renders with correct style', () => {

@@ -3,8 +3,8 @@
 */
 import { fromJS } from 'immutable'
 const fetchData = jest.fn()
-const arrayA = fromJS([1,2]);
-let arrayB = arrayA.push(3);
+const arrayA = fromJS([1,2])
+let arrayB = arrayA.push(3)
 
 test('', () => {
   expect(arrayA).not.toContain(3)
@@ -18,24 +18,24 @@ test('', () => {
 test('the data is 122', () => {
   function callback(data) {
     setTimeout(function(){
-      expect(data).toBe('122');
+      expect(data).toBe('122')
     },1000)
   }
   
-  fetchData(callback('122'));
-});
+  fetchData(callback('122'))
+})
 
 // This coding type of mock setTimeout will leads to test time out, just skip
 test.skip('the data is 122', done => {
   function callback(data) {
     setTimeout(function(){
-      expect(data).toBe('122');
+      expect(data).toBe('122')
       done()
     },1000)
   }
   
-  fetchData(callback('1222'));
-});
+  fetchData(callback('1222'))
+})
 
 // one choice for asynchronous
 test('mock setTimeout test', async () => {
@@ -43,12 +43,12 @@ test('mock setTimeout test', async () => {
   await new Promise(resolve => {
     setTimeout(() => {
       data = 2
-      resolve();
-    }, 1000);
-  });
+      resolve()
+    }, 1000)
+  })
 
-  expect(data).toBe(2);
-});
+  expect(data).toBe(2)
+})
 
 /*
   setup 
@@ -70,20 +70,20 @@ test('mock setTimeout test', async () => {
 // }
 
 // beforeEach(() => {
-//   initializeCityDatabase();
-// });
+//   initializeCityDatabase()
+// })
 
 // afterEach(() => {
-//   clearCityDatabase();
-// });
+//   clearCityDatabase()
+// })
 
 // test('city database has Vienna', () => {
-//   expect(isCity['Vienna']).toBeTruthy();
-// });
+//   expect(isCity['Vienna']).toBeTruthy()
+// })
 
 // test('city database has San Juan', () => {
-//   expect(isCity['San Juan']).toBeTruthy();
-// });
+//   expect(isCity['San Juan']).toBeTruthy()
+// })
 
 /*
   teardown
@@ -96,9 +96,9 @@ function initializeCityDatabase () {
   return new Promise(resolve => {
     setTimeout(() => {
       isCity['Vienna'] = true
-      resolve();
-    }, 1000);
-  });
+      resolve()
+    }, 1000)
+  })
 }
 
 function clearCityDatabase () {
@@ -106,47 +106,47 @@ function clearCityDatabase () {
     setTimeout(() => {
       isCity['Vienna'] = false
       isCity['San Juan'] = false
-      resolve();
-    }, 1000);
-  });
+      resolve()
+    }, 1000)
+  })
 }
 
 beforeAll(() => {
-  return initializeCityDatabase();
-});
+  return initializeCityDatabase()
+})
 
 afterAll(() => {
-  return clearCityDatabase();
-});
+  return clearCityDatabase()
+})
 
 /* 
   run the following would lead error
 */
 // beforeEach(() => {
-//   return initializeCityDatabase();
-// });
+//   return initializeCityDatabase()
+// })
 
 // afterEach(() => {
-//   return clearCityDatabase();
-// });
+//   return clearCityDatabase()
+// })
 
 test('city database has Vienna', () => {
-  expect(isCity['Vienna']).toBeTruthy();
-});
+  expect(isCity['Vienna']).toBeTruthy()
+})
 
 test('city database has San Juan', () => {
-  expect(isCity['San Juan']).toBeTruthy();
-});
+  expect(isCity['San Juan']).toBeTruthy()
+})
 
 //describe('Scoped / Nested block', () => {
-//   beforeAll(() => console.log('2 - beforeAll'));
-//   afterAll(() => console.log('2 - afterAll'));
-//   beforeEach(() => console.log('2 - beforeEach'));
-//   afterEach(() => console.log('2 - afterEach'));
-//   test('', () => console.log('2 - test'));
-// });
+//   beforeAll(() => console.log('2 - beforeAll'))
+//   afterAll(() => console.log('2 - afterAll'))
+//   beforeEach(() => console.log('2 - beforeEach'))
+//   afterEach(() => console.log('2 - afterEach'))
+//   test('', () => console.log('2 - test'))
+// })
 
 // add only would skip all the others on the page
 // test.only('this will be the only test that runs', () => {
-//   expect(true).toBe(true);
-// });
+//   expect(true).toBe(true)
+// })

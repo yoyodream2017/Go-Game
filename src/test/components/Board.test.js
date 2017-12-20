@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow, mount, render } from 'enzyme'
+import { shallow, mount } from 'enzyme'
 import Board from '../../components/Board'
 const boardSize = 5
 const actionA = jest.fn()
@@ -16,7 +16,7 @@ describe('render', () => {
   it('renders without error', () => {
     const wrapper = shallow(<Board />)
 
-    expect(wrapper).toBeTruthy();
+    expect(wrapper).toBeTruthy()
   })
 
   it('renders with correct number of rows and squares', () => {
@@ -28,7 +28,7 @@ describe('render', () => {
 
   it('click can send action', () => {
     const wrapper = mount(CreateNode)
-    // console.log(wrapper.debug()); // this can helps on print the real node struture when testing.
+    // console.log(wrapper.debug()) // this can helps on print the real node struture when testing.
     wrapper.find('.square').at(6).simulate('click')
 
     expect(actionA).toBeCalled()
