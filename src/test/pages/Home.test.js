@@ -18,7 +18,7 @@ describe('render', () => {
   test('render exact link number', () => {
     const wrapper = render(<Home />)
     
-    expect(wrapper.find('a').length).toBe(2)
+    expect(wrapper.find('a').length).toBe(3)
   })
 
   test('render exact link text', () => {

@@ -7,6 +7,7 @@ import {
 import Home from './pages/Home'
 import ToeGame from './components/ToeGame'
 import Game from './components/Game'
+import GoGame from './components/GoGame'
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
           <Route path="/" exact component={Home}/>
           <Route path='/gobang' component={Game}/>
           <Route path='/toe' component={ToeGame}/>
+          <Route path='/go' component={GoGame}/>          
         </Switch>
       </Router>
     )
