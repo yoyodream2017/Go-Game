@@ -24,24 +24,28 @@ class GoGame extends Component {
     return null
   }
 
-  calculateCapture(i, j, squares, block) {
-    // If a is 'X', set new block number, check all the four neighbors, set all X with same block number to the new block number. The new block number is increased with move number.
-      // ===> Better algorithm? set an array to store the block number and all squares belong to it.
-    // Four type of states: X, O, space, border.
-      // ===> set the initial border squares.
-    // Excluding the suiside case.
-    // Check the block number of 'O' in four directions, record the block number.
-    // Check all squares with same block number,for four direction, if no space, remove them all.
-    const currentState = this.currentState()
-    this.handleBlock(i, j, squares, currentState, block)
+  calculateCapture(i, j, squares, block, forbid) {
+    // Clicking, say ‘X’, set new block number, use block number array in history to store it.
+     
+    // Check all states in four neighbors, set all X with same block number to the new block number.
 
+    // Check the block number of 'O' in four directions, record the block number. Check all squares with same block number,for four directions for each square, if no space, remove them all.
+
+    // State: three type of states: X, O, space. will not set state for border, just judge when close to border. 
+  
+    // Forbiding the suiside and ko case.
+
+    const currentState = this.currentState()
+
+    return this.handleBlock(i, j, squares, currentState, block, forbid)
+    
   }
 
   currentState() {
     return this.state.xIsNext ? 'X' : 'O'
   }
 
-  handleBlock(i, j, squares, currentState, block) {
+  handleBlock(i, j, squares, currentState, block, forbid) {
     let left, right, top, bottom
     let addedArr = []
     let addNum = []
@@ -192,6 +196,7 @@ class GoGame extends Component {
       }
     }
     let totalNum = []
+    
 
     addNum.concat(subNum).forEach(num => {
       if(!totalNum.includes(num)){
@@ -213,8 +218,22 @@ class GoGame extends Component {
     }
 
     block.push(addedArr)
-    console.log(block)    
-    console.log(JSON.stringify(block))
+
+    let count = 0
+
+    block[block.length-1].forEach(arr => {
+      if (this.checkDeath(arr, squares)) {
+        count++
+      }
+    })
+
+    if(count === block[block.length-1].length) {
+      forbid = true
+    }
+
+    return forbid
+    // console.log(block)    
+    // console.log(JSON.stringify(block))
   }
 
   checkBlockNumber(i, j, block) {
@@ -254,6 +273,7 @@ class GoGame extends Component {
     const currentMove = history.length - 1
     const current = history[currentMove]
     let block = current.block.slice() //without slice would cause history bug.
+    let forbid = current.forbid
     const squares = JSON.parse(JSON.stringify(current.squares))
     const position = [i,j]
 
@@ -262,14 +282,17 @@ class GoGame extends Component {
     }
     squares[i][j] = this.currentState()
 
-    this.calculateCapture(i, j, squares, block)
+    if (this.calculateCapture(i, j, squares, block, forbid)) {
+      return 
+    }
 
     this.setState({
       history: history.concat([
         {
           squares,
           position,
-          block
+          block,
+          forbid
         }
       ]),
       stepNumber: history.length,
