@@ -12,7 +12,8 @@ class GoGame extends Component {
           squares: Array.from({length: this.boardSize}).map(() => new Array(this.boardSize).fill(null)),
           position: [],
           block: [],
-          captureForbid: false
+          capturedSquare: [],
+          forbid: false
         }
       ],
       stepNumber: 0,
@@ -24,7 +25,7 @@ class GoGame extends Component {
     return null
   }
 
-  calculateCapture(i, j, squares, block, forbid) {
+  calculateCapture(i, j, squares, block, forbid, capturedSquare, position) {
     // Clicking, say ‘X’, set new block number, use block number array in history to store it.
      
     // Check all states in four neighbors, set all X with same block number to the new block number.
@@ -33,11 +34,13 @@ class GoGame extends Component {
 
     // State: three type of states: X, O, space. will not set state for border, just judge when close to border. 
   
-    // Forbiding the suiside and ko case.
+    // Forbiding the suiside and ko case. suiside case, just do remove first and check death for the new block. if no block removed and death true for the new block, forbidden. 
+    
+    // Ko case: the position is the only one last killed and killed the last position only.
 
     const currentState = this.currentState()
 
-    return this.handleBlock(i, j, squares, currentState, block, forbid)
+    return this.handleBlock(i, j, squares, currentState, block, forbid, capturedSquare, position)
     
   }
 
@@ -45,7 +48,7 @@ class GoGame extends Component {
     return this.state.xIsNext ? 'X' : 'O'
   }
 
-  handleBlock(i, j, squares, currentState, block, forbid) {
+  handleBlock(i, j, squares, currentState, block, forbid, capturedSquare, position) {
     let left, right, top, bottom
     let addedArr = []
     let addNum = []
@@ -66,8 +69,7 @@ class GoGame extends Component {
           block[blockNumberLeft].forEach(arr => {
             addedArr.push(arr)
           })
-  
-          
+
         }
       } else if (left !== null) {
         if (blockNumberLeft !== undefined && !subNum.includes(blockNumberLeft)) {
@@ -197,12 +199,20 @@ class GoGame extends Component {
     }
     let totalNum = []
     
-
     addNum.concat(subNum).forEach(num => {
       if(!totalNum.includes(num)){
         totalNum.push(num)
       }
     })
+
+    if (subNum.length === 1 && block[subNum[0]].length === 1) {
+    
+      if(capturedSquare[0] === i && capturedSquare[1] === j && block[subNum[0]][0][0]=== position[0] && block[subNum[0]][0][1] === position[1]) {
+        return true
+      }
+
+     [capturedSquare[0], capturedSquare[1]] = block[subNum[0]][0].slice()
+    }
 
     totalNum.forEach(num => {
       block[num] = []
@@ -230,6 +240,8 @@ class GoGame extends Component {
     if(count === block[block.length-1].length) {
       forbid = true
     }
+    
+    [position[0], position[1]] = [i, j]
 
     return forbid
     // console.log(block)    
@@ -272,18 +284,19 @@ class GoGame extends Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1)
     const currentMove = history.length - 1
     const current = history[currentMove]
-    let block = current.block.slice() //without slice would cause history bug.
+    let block = current.block.slice() // without slice would cause history bug.
     let forbid = current.forbid
+    let capturedSquare = current.capturedSquare.slice()
     const squares = JSON.parse(JSON.stringify(current.squares))
-    const position = [i,j]
+    let position = current.position.slice()
 
     if (squares[i][j] || this.gameOver) {
       return
     }
     squares[i][j] = this.currentState()
 
-    if (this.calculateCapture(i, j, squares, block, forbid)) {
-      return 
+    if (this.calculateCapture(i, j, squares, block, forbid, capturedSquare, position)) {
+      return
     }
 
     this.setState({
@@ -292,7 +305,8 @@ class GoGame extends Component {
           squares,
           position,
           block,
-          forbid
+          forbid,
+          capturedSquare
         }
       ]),
       stepNumber: history.length,
