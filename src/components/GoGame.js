@@ -89,13 +89,13 @@ class GoGame extends Component {
       }
     }
 
-    this.setCapturedSquare(i, j, subNum, block, capturedSquare, position)
+    if(this.setCapturedSquare(i, j, subNum, block, capturedSquare, position)) {
+      return true
+    }
 
     this.setBlock(addNum, subNum, block, addedArr)
 
-    this.checkSuisideCase(block, squares, forbid)
-
-    position = [i, j]
+    forbid = this.checkSuisideCase(block, squares)
 
     return forbid
   }
@@ -171,7 +171,7 @@ class GoGame extends Component {
   */
   setCapturedSquare(i, j, subNum, block, capturedSquare, position) {
     if (subNum.length === 1 && block[subNum[0]].length === 1) {
-      if(capturedSquare[0] === i && capturedSquare[1] === j && block[subNum[0]][0][0]=== position[0] && block[subNum[0]][0][1] === position[1]) {
+      if(capturedSquare[0] === i && capturedSquare[1] === j && block[subNum[0]][0][0] === position[0] && block[subNum[0]][0][1] === position[1]) {
         return true
       }
 
@@ -204,7 +204,7 @@ class GoGame extends Component {
 
   /*setCapturedSquare: prevent suiside case
   */
-  checkSuisideCase(block, squares, forbid) {// eslint-disable-line
+  checkSuisideCase(block, squares) {// eslint-disable-line
     let count = 0
     
     block[block.length-1].forEach(arr => {
@@ -214,8 +214,10 @@ class GoGame extends Component {
     })
 
     if(count === block[block.length-1].length) {
-      forbid = true
+      return true
     }
+
+    return false
   }
 
   /* checkDeath: check a single square is dead or not(no space can be considered dead).
@@ -266,6 +268,7 @@ class GoGame extends Component {
       return
     }
 
+    position = [i, j]
     this.setState({
       history: history.concat([
         {
