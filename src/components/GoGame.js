@@ -5,13 +5,14 @@ class GoGame extends Component {
 
   constructor(props) {
     super(props)
-    this.boardSize = 19
+    this.boardSize = 9
     this.state = {
       history: [
         {
           squares: Array.from({length: this.boardSize}).map(() => new Array(this.boardSize).fill(null)),
           position: [],
-          block: []
+          block: [],
+          captureForbid: false
         }
       ],
       stepNumber: 0,
@@ -43,126 +44,177 @@ class GoGame extends Component {
   handleBlock(i, j, squares, currentState, block) {
     let left, right, top, bottom
     let addedArr = []
+    let addNum = []
+    let subNum = []
+    let blockNumberLeft, blockNumberRight, blockNumberTop, blockNumberBottom
 
     addedArr.push([i, j])
 
     if (j !== 0) {
       left = squares[i][j-1]
-      const blockNumber = this.checkBlockNumber(i, j-1, block)
+      blockNumberLeft = this.checkBlockNumber(i, j-1, block)
       
       if (currentState === left) {
-        
-        block[blockNumber].forEach(arr => {
-          addedArr.push(arr)
-        })
+        if (blockNumberLeft !== undefined && !addNum.includes(blockNumberLeft)) {
 
-        block.splice(blockNumber, 1)
-      } else if (left !== null) {
-        let count = 0
-        
-        block[blockNumber].forEach(arr => {
-          if (this.checkDeath(arr, squares)) {
-            count++
-          }
-        })
+          addNum.push(blockNumberLeft)
 
-        if (count === block[blockNumber].length) {
-          block[blockNumber].forEach(arr => {
-            squares[arr[0]][arr[1]] = null
+          block[blockNumberLeft].forEach(arr => {
+            addedArr.push(arr)
           })
-          block.splice(blockNumber, 1)
+  
+          
+        }
+      } else if (left !== null) {
+        if (blockNumberLeft !== undefined && !subNum.includes(blockNumberLeft)) {
+          let count = 0
+
+          block[blockNumberLeft].forEach(arr => {
+            if (this.checkDeath(arr, squares)) {
+              count++
+            }
+          })
+  
+          if (count === block[blockNumberLeft].length) {
+            block[blockNumberLeft].forEach(arr => {
+              squares[arr[0]][arr[1]] = null
+            })
+
+            subNum.push(blockNumberLeft)
+          }
         }
       }
     }
 
     if (j !== this.boardSize-1) {
       right = squares[i][j+1]
-      const blockNumber = this.checkBlockNumber(i, j+1, block)
+      blockNumberRight = this.checkBlockNumber(i, j+1, block)
 
       if (currentState === right) {
+        if (blockNumberRight !== undefined && !addNum.includes(blockNumberRight)) {
 
-        block[blockNumber].forEach(arr => {
-          addedArr.push(arr)
-        })
+          addNum.push(blockNumberRight)
 
-        block.splice(blockNumber, 1)
-      } else if (right !== null) {
-        let count = 0
-        
-        block[blockNumber].forEach(arr => {
-          if (this.checkDeath(arr, squares)) {
-            count++
-          }
-        })
-
-        if (count === block[blockNumber].length) {
-          block[blockNumber].forEach(arr => {
-            squares[arr[0]][arr[1]] = null
+          block[blockNumberRight].forEach(arr => {
+            addedArr.push(arr)
           })
-          block.splice(blockNumber, 1)
+
+        }
+      } else if (right !== null) {
+        if (blockNumberRight !== undefined && !subNum.includes(blockNumberRight)) {
+          let count = 0
+
+          block[blockNumberRight].forEach(arr => {
+            if (this.checkDeath(arr, squares)) {
+              count++
+            }
+          })
+
+          if (count === block[blockNumberRight].length) {
+            block[blockNumberRight].forEach(arr => {
+              squares[arr[0]][arr[1]] = null
+            })
+
+            subNum.push(blockNumberRight)
+          }
         }
       }
     }
 
     if (i !== 0) {
       top = squares[i-1][j]
-      const blockNumber = this.checkBlockNumber(i-1, j, block)
+      blockNumberTop = this.checkBlockNumber(i-1, j, block)
 
       if (currentState === top) {
+        if (blockNumberTop !== undefined && !addNum.includes(blockNumberTop)) {
+          
+          addNum.push(blockNumberTop)
 
-        block[blockNumber].forEach(arr => {
-          addedArr.push(arr)
-        })
-
-        block.splice(blockNumber, 1)
-      } else if (top !== null) {
-        let count = 0
-        
-        block[blockNumber].forEach(arr => {
-          if (this.checkDeath(arr, squares)) {
-            count++
-          }
-        })
-
-        if (count === block[blockNumber].length) {
-          block[blockNumber].forEach(arr => {
-            squares[arr[0]][arr[1]] = null
+          block[blockNumberTop].forEach(arr => {
+            addedArr.push(arr)
           })
-          block.splice(blockNumber, 1)
+
+          
+        }
+
+      } else if (top !== null) {
+        if (blockNumberTop !== undefined && !subNum.includes(blockNumberTop)) {
+          let count = 0
+        
+          block[blockNumberTop].forEach(arr => {
+            if (this.checkDeath(arr, squares)) {
+              count++
+            }
+          })
+
+          if (count === block[blockNumberTop].length) {
+            block[blockNumberTop].forEach(arr => {
+              squares[arr[0]][arr[1]] = null
+            })
+
+            subNum.push(blockNumberTop)
+          }
         }
       }
     }
 
     if (i !== this.boardSize-1 ) {
       bottom = squares[i+1][j]
-      const blockNumber = this.checkBlockNumber(i+1, j, block)
+      blockNumberBottom = this.checkBlockNumber(i+1, j, block)
 
       if (currentState === bottom) {
-        
-        block[blockNumber].forEach(arr => {
-          addedArr.push(arr)
-        })
+        if (blockNumberBottom !== undefined && !addNum.includes(blockNumberBottom)) {
+          
+          addNum.push(blockNumberBottom)
 
-        block.splice(blockNumber, 1)
-      } else if (bottom !== null) {
-        let count = 0
-        
-        block[blockNumber].forEach(arr => {
-          if (this.checkDeath(arr, squares)) {
-            count++
-          }
-        })
-
-        if (count === block[blockNumber].length) {
-          block[blockNumber].forEach(arr => {
-            squares[arr[0]][arr[1]] = null
+          block[blockNumberBottom].forEach(arr => {
+            addedArr.push(arr)
           })
-          block.splice(blockNumber, 1)
         }
+      } else if (bottom !== null) {
+        if (blockNumberBottom !== undefined && !subNum.includes(blockNumberBottom)) {
+          let count = 0
+        
+          block[blockNumberBottom].forEach(arr => {
+            if (this.checkDeath(arr, squares)) {
+              count++
+            }
+          })
+
+          if (count === block[blockNumberBottom].length) {
+            block[blockNumberBottom].forEach(arr => {
+              squares[arr[0]][arr[1]] = null
+            })
+
+            subNum.push(blockNumberBottom)
+          }
+        }
+      }
+    }
+    let totalNum = []
+
+    addNum.concat(subNum).forEach(num => {
+      if(!totalNum.includes(num)){
+        totalNum.push(num)
+      }
+    })
+
+    totalNum.forEach(num => {
+      block[num] = []
+    })
+    
+    // splice would cause the index disturbance,should reduce len and i
+    for (let i=0,len=block.length;i<len;i++) {
+      if (Object.keys(block[i]).length === 0) {
+        block.splice(i, 1)
+        len--
+        i--
       }
     }
 
     block.push(addedArr)
+    console.log(block)    
+    console.log(JSON.stringify(block))
   }
 
   checkBlockNumber(i, j, block) {
@@ -201,7 +253,7 @@ class GoGame extends Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1)
     const currentMove = history.length - 1
     const current = history[currentMove]
-    let block = current.block.slice() //withoout slice would cause history bug.
+    let block = current.block.slice() //without slice would cause history bug.
     const squares = JSON.parse(JSON.stringify(current.squares))
     const position = [i,j]
 
