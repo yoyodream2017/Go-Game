@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
 import Square from './Square'
+import { func, number, array } from 'prop-types'
+
+const propTypes = {
+  boardSize: number,
+  onClick: func,
+  squares: array
+}
 
 class Board extends Component {
   renderSquare(i,j) {
@@ -47,5 +54,6 @@ class Board extends Component {
     )
   }
 }
+Board.propTypes = propTypes
 
 export default Board
