@@ -1,4 +1,4 @@
-import React, { Component } from 'react'/* eslint-disable */
+import React, { Component } from 'react'
 import Square from './Square'
 
 class Board extends Component {
