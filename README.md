@@ -23,7 +23,7 @@ Then we did some refactors and provided a gobang and a go game by extending the 
 >> ![Capture example](https://raw.githubusercontent.com/yoyodream2017/Go-Game/master/go-game-training/p4.png)
 
 ## Liberty and eye 
-> The open point that stone bordering are called 'liberty'. Enclosed liberty is referred to as 'eye'. Generally, single-point eye cannot be placed by opponent stones. For instance, <br />
+> The open points that stone bordering are called 'liberty'. Enclosed liberty is referred to as an 'eye'. Generally, single-point eye cannot be filled by opponent stones. For instance, <br />
 #### Eye example
 >> ![Eye example](https://raw.githubusercontent.com/yoyodream2017/Go-Game/master/go-game-training/p5.png)<br />
 > However, when capture occurs, such move is not forbidden.<br />
@@ -57,7 +57,7 @@ Then we did some refactors and provided a gobang and a go game by extending the 
 >> ![Dead example](https://raw.githubusercontent.com/yoyodream2017/Go-Game/master/go-game-training/p15.png)
 
 ## Forbidden KO
-> One capture case is forbidden when black and white stone are all surrounded by another and repeat a previous position to capture one stone.<br />
+> One capture case is forbidden when black and white stone are mutually surrounded and repeat a previous position to fill a false eye to capture a single stone.<br />
 > For example, first "X" can capture one "O", and then "X" can capture one "O". Then "X" can repeat to capture "O" and vice versa. This will lead to no end.<br />
 #### KO example
 >> ![KO example](https://raw.githubusercontent.com/yoyodream2017/Go-Game/master/go-game-training/p16.png)<br />
