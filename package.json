@@ -19,7 +19,9 @@
     "eject": "react-scripts eject",
     "prepush": "npm test",
     "stylelint": "./node_modules/.bin/stylelint './src/*.css'",
-    "stylefmt": "./node_modules/.bin/stylefmt -r './src/*.css'"
+    "stylefmt": "./node_modules/.bin/stylefmt -r './src/*.css'",
+    "release": "npm version",
+    "postrelease": "git push origin master && git push --tags"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
