@@ -43,5 +43,9 @@
     "stylefmt": "^6.0.0",
     "stylelint": "^8.4.0",
     "stylelint-config-standard": "^18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoyodream2017/Go-Game.git"
   }
 }
