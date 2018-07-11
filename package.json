@@ -2,7 +2,6 @@
   "name": "go-game",
   "version": "0.1.2",
   "private": true,
-  "main": "src/components/Square.js",
   "dependencies": {
     "immutable": "^3.8.2",
     "prop-types": "^15.6.0",
